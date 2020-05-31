@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="styles.css" />
+    </head>
+    <body>
+        <div class="container">
+            <p id="test"></p>
+            <div class="formContainer">
+                <form id="gangForm">
+                    <div>
+                        <!-- <input
+                            id="input_school"
+                            type="text"
+                            placeholder="Enter your school"
+                            oninput="suggest()"
+                        /> -->
+                        <select id="input_school">
+                            <option value="ucberkeley">UC Berkeley</option>
+                            <option value="ucdavis">UC Davis</option>
+                            <option value="ucla">UC LA</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="interests">interests: </label>
+                        <input id="input_interests" />
+                    </div>
+                    <div>
+                        <button>Submit</button>
+                    </div>
+                </form>
+            </div>
+            <div class="tableContainer">
+                <table id="courseTable" class="courseTable"></table>
+            </div>
+        </div>
+        <script src="script.js"></script>
+    </body>
+</html>
