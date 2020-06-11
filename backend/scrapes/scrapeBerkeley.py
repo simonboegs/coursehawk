@@ -13,8 +13,9 @@ for i in range(len(labels)):
     labels[i] = labels[i].find('a').text
     idx1 = labels[i].find('(')
     idx2 = labels[i].find(')')
-    subject = labels[i][idx1+1:idx2]
-    page = requests.get(url + subject.replace(' ','_').lower())
+    subjectCode = labels[i][idx1+1:idx2]
+    subjectFull = labels[i][:idx1-1]
+    page = requests.get(url + subjectCode.replace(' ','_').lower())
     soup = BeautifulSoup(page.content, 'html.parser')
     courseNumber = soup.findAll('span', class_='code')
     courseTitles = soup.findAll('span', class_='title')
@@ -35,15 +36,16 @@ for i in range(len(labels)):
         coursePrereqs.append(prereq)
     for j in range(len(courseTitles)):
         course = {
-            'subject': labels[i],
-            'number': courseNumber[j].text.split('\xa0')[1],
+            'subjectFull': subjectFull,
+            'subjectCode': subjectCode,
+            'number': courseNumber[j].text.split('\xa0')[-1],
             'title': courseTitles[j].text,
             'units': courseUnits[j].text.replace(' Units',''),
             'prereqs': coursePrereqs[j],
             'desc': courseDescs[j].text.split('\n')[-1]
             }
         courses.append(course)
-        print(course)
+        print(course['subjectFull'],course['subjectCode'])
         
 data = {'courses': courses}
 with open('courses_ucberkeley.json','w') as writeFile:

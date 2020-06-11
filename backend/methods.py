@@ -22,7 +22,6 @@ def getRelevantCourses(school, interests):
     relevantCourses = insertionInverseSort(relevantCourses)
     return relevantCourses
 
-    
 def getCourses(school):
     with open('course_catalogs/courses_' + school + '.json', 'r') as jsonFile:
         data = json.load(jsonFile)
@@ -50,6 +49,5 @@ def insertionInverseSort(courses):
         courses[j+1] = key
     return courses
 
-out = getRelevantCourses('ucdavis', 'chemical-engineering')
+#out = getRelevantCourses('ucdavis', 'chemical-engineering')
 
-print(out[:5])

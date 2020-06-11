@@ -18,21 +18,58 @@ function fullUrl(url) {
 // get("/test").then((res) => console.log(res));
 // get("/getcourses/psychology-logic").then((res) => console.log(res));
 
-const form = document.getElementById("gangForm");
+const form = document.getElementsByTagName("form")[0];
 
 form.addEventListener("submit", (e) => {
     e.preventDefault();
-    console.log("form submitted");
-    var school = document.getElementById("input_school").value;
-    var interests = document
-        .getElementById("input_interests")
-        .value.replace(" ", "-");
-    console.log(school);
-    console.log(interests);
-    get(
-        "/getcourses/?school=" + school + "&interests=" + interests
-    ).then((res) => generateTable(res.courses));
+    var formId = e.target.id;
+    if (formId === "schoolForm") {
+        var input = document.getElementById("schoolInput").value;
+        setSchool(input);
+    } else if (formId === "interestForm") {
+        var input = document.getElementById("interestInput").value;
+        setInterest(input);
+    }
 });
+
+function setSchool(school) {
+    school = school.toLowerCase().replace(" ", "");
+    console.log(school);
+    window.location.href = "search.html?" + school;
+}
+
+if (document.getElementById("search-school") != null)
+    document.getElementById("search-school").innerHTML = query.school;
+
+function setInterest(interest) {
+    console.log(interest);
+}
+
+const courseDivs = Array.from(document.getElementsByClassName("courseHeader"));
+courseDivs.forEach((button) => {
+    button.addEventListener("click", (e) => {
+        var courseBody = e.target.parentElement.parentElement.getElementsByClassName(
+            "courseBody"
+        )[0];
+        console.log(courseBody);
+        if (courseBody.className === "courseBody") {
+            courseBody.className = "courseBody active";
+        } else if (courseBody.className === "courseBody active") {
+            courseBody.className = "courseBody";
+        }
+        console.log(courseBody);
+    });
+});
+
+// form.addEventListener("submit", (e) => {
+//     e.preventDefault();
+//     var input = document.getElementById("bar");
+//     var school = input.value;
+//     var desc = document.getElementById("desc");
+//     desc.innerHTML = school;
+//     desc.style.color = "darkblue";
+//     console.log(school.value);
+// });
 
 const schoolInput = document.getElementById("input_school");
 function suggest() {
@@ -52,7 +89,7 @@ function generateTable(courses) {
         th.appendChild(text);
         row.appendChild(th);
     }
-    for (var i = 0; i < Math.min(courses.length, 10); i++) {
+    for (var i = 0; i < courses.length; i++) {
         let row = table.insertRow();
         for (key in courses[i]) {
             let cell = row.insertCell();

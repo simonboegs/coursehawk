@@ -16,6 +16,13 @@ for li in lis:
     subject = soup.find('span', id='dnn_ctr38600_CourseDetails_headerText').text
     if(subject[-1] == ' '):
         subject = subject[:-1]
+    if("(" in subject):
+        s = subject.split(" (")
+        subjectFull = s[0]
+        subjectCode = s[1].replace(")","")
+    else:
+        subjectFull = subject[0] + subject[1:].lower()
+        subjectCode = subject.upper()
     divisions = [soup.find('div', id='lower'), soup.find('div', id='upper')]
     for division in divisions:
         if(division == None):
@@ -44,7 +51,8 @@ for li in lis:
             if(len(courseDesc) > 0 and  courseDesc[0] == ' '):
                 courseDesc = courseDesc[1:]
             course = {
-                'subject': subject,
+                'subjectFull': subjectFull,
+                'subjectCode': subjectCode,
                 'number': courseNumber,
                 'title': courseTitle,
                 'units': courseUnits,
@@ -52,7 +60,7 @@ for li in lis:
                 'desc': courseDesc
                 }
             courses.append(course)
-print(courses)
+            print(course['subjectFull'],course['subjectCode'])
 data = {'courses': courses}
 with open('la.json','w') as writeFile:
     json.dump(data, writeFile)
